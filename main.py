@@ -35,6 +35,38 @@ class HhruBoard(JobBoard):
             print(f"Ошибка получения данных: {response.status_code}")
             return None
 
+
+class SuperJobBoard(JobBoard):
+    API_URL = "https://api.superjob.ru/2.0/vacancies/"
+    HEADERS = {
+        "X-Api-App-Id": "ваш_ключ_API"
+    }
+
+    def get_vacancies(self, query):
+        response = requests.get(self.API_URL, headers=self.HEADERS, params={"keywords": query})
+        if response.status_code == 200:
+            vacancies_data = json.loads(response.text)
+            if "error" in vacancies_data:
+                print(f"Ошибка API: {vacancies_data['error']['message']}")
+                return None
+
+            vacancies = []
+            for data in vacancies_data.get('objects', []):
+                title = data["profession"]
+                url = data["link"]
+                salary = data["payment"]
+                description = data["work"]
+                try:
+                    vacancy = Vacancy(title, url, salary, description)
+                    vacancies.append(vacancy)
+                except ValueError as e:
+                    print(f"Ошибка создания вакансии: {e}")
+            return vacancies
+        else:
+            print(f"Ошибка получения данных: {response.status_code}")
+            return None
+
+
 class Job:
     def __init__(self, title, url, salary, description):
         self.title = title
