@@ -2,6 +2,10 @@ from job_boards import HhruBoard, SuperJobBoard
 from job_files import JSONJobFile
 
 def interact_with_user():
+    """
+    Интерактивная функция для общения с пользователем. Запрашивает у пользователя данные и выполняет операции
+    согласно выбору пользователя.
+    """
     print("Выберите доску для поиска вакансий:")
     print("1. hh.ru")
     print("2. superjob.ru")
@@ -39,6 +43,12 @@ def interact_with_user():
 
 
 def get_filtered_jobs(file_saver):
+    """
+    Функция для фильтрации вакансий по заданным пользователем критериям.
+
+    Args:
+        file_saver (JSONJobFile): экземпляр класса JSONJobFile, используемый для взаимодействия с файлом вакансий.
+    """
     print("Введите критерии для фильтрации вакансий. Оставьте поле пустым, если не хотите фильтровать по данному критерию.")
     title = input("Название вакансии: ")
     salary = input("Зарплата: ")
