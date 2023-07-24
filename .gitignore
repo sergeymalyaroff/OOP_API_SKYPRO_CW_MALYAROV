@@ -1,0 +1,4 @@
+*.txt
+/logs/
+secret_keys.py
+.idea
